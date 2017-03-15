@@ -18,9 +18,9 @@ void ShiftText::decrypt(int key)
 	char let = ' ';
 	
 	if (isEnc())
-	{
-		_text = encrypt(_text, -1 * key);
+	{	
 		_isEnc = false;
+		_text = encrypt(_text, 26-key);
 	}
 	else
 	{
@@ -33,29 +33,10 @@ void ShiftText::decrypt(int key)
 
 string ShiftText::encrypt(string text, int key) 
 {
-	int i = 0;
-	char let = ' ';
-
-	for (i = 0; i < text.length(); i++)
+	for (int i = 0; i < text.length() ; i++)
 	{
-		text[i] = tolower(text[i]);
-		if (text[i] >= 97 && text[i] <= 122)
-		{
-			let = text[i] + (key % 26);
-			if (let > 122)
-			{
-				let -= 26;
-			}
-			else if (let < 97)
-			{
-				let += 26;
-			}
-		}
-		else
-		{
-			let = text[i];
-		}
-		text[i] = let;
+		if(!(text[i] == ' ' || text[i] == ',' || text[i] == '.'))
+			text[i] = (text[i]-'a' + key) % 26 + 'a';
 	}
 
 	_isEnc = true;
